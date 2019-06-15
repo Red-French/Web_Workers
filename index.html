@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <script>
+      let worker;
+
+      if(window.Worker) {
+        console.log('workers are available')
+        worker = new Worker('worker.js');
+        console.log(worker);
+
+        worker.postMessage('go to work!');  // event listener is in worker.js
+
+        worker.addEventListener('message', function(event) {  // catches response from worker.js
+          console.log(event);
+          console.log(event.data.message);
+
+          document.body.innerHTML = event.data.message;
+
+
+          worker.postMessage('do MORE work!');  // event listener is in worker.js
+
+          worker.terminate();
+        });
+      }
+    </script>
+
+    <h1>Waiting for data...</h1>
+
+  </body>
+</html>
