@@ -1,36 +1,85 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
 
-    <script>
-      let worker;
+<head>
+  <meta charset="utf-8">
+  <title>Web Workers</title>
 
-      if(window.Worker) {
-        console.log('workers are available')
-        worker = new Worker('worker.js');
-        console.log(worker);
+  <link href="style.css" rel="stylesheet">
+</head>
 
-        worker.postMessage('go to work!');  // event listener is in worker.js
+<body>
 
-        worker.addEventListener('message', function(event) {  // catches response from worker.js
-          console.log(event);
-          console.log(event.data.message);
+  <script>
+    let worker;
 
-          document.body.innerHTML = event.data.message;
+    if (window.Worker) {
+      console.log('workers are available')
+      worker = new Worker('worker.js');
+      console.log(worker);
+
+      // worker.postMessage({ name: 'go to work!', number: '12347' });  // event listener is in worker.js
+
+      // worker.addEventListener('message', function (event) {  // catches response from worker.js
+      //   console.log(event);
+      //   console.log(event.data.message);
+
+      //   // document.body.innerHTML = event.data.message;
+      //   if (event.data.message === "count1") {
+      //     document.getElementById("p1").innerHTML = event.data.name + " - " + event.data.count;
+      //     worker.postMessage('do MORE work!');  // event listener is in worker.js
+      //   } else if (event.data.message === "count2") {
+      //     document.getElementById("p2").innerHTML = event.data.name + " - " + event.data.count2;
+      //   }
 
 
-          worker.postMessage('do MORE work!');  // event listener is in worker.js
+      // });
+    }
 
-          worker.terminate();
-        });
+    function clicko() {
+      document.getElementById("p3").innerHTML += "doing stuff while waiting. <br>";
+    }
+    function rate(rate) {
+      console.log('rate');
+      if (rate === '4') {
+        worker.postMessage({ name: 'go to work!', number: '12347' });
+      } else if (rate === '5') {
+        worker.postMessage('do MORE work!');
       }
-    </script>
 
+      worker.addEventListener('message', function (event) {
+        if (event.data.message === "count1") {
+          document.getElementById("p4").innerHTML = event.data.name + " - " + event.data.count;
+        } else if (event.data.message === "count2") {
+          document.getElementById("p5").innerHTML = event.data.name + " - " + event.data.count2;
+          // worker.terminate();
+        }
+      });
+    }
+  </script>
+
+  <div class="left">
     <h1>Waiting for data...</h1>
+    <p id="p1"></p>
+    <p id="p2"></p>
+  </div>
 
-  </body>
+  <div class="right">
+    <input type="button" class="styled" value="Click me" onClick="clicko()">
+  </div>
+
+  <div class="right">
+    <div><span id="p4"></span> <input type="button" class="styled" value="Rate" onClick="rate('4')">
+    </div>
+
+    <div><span id="p5"></span><input type="button" class="styled" value="Rate" onClick="rate('5')">
+    </div>
+  </div>
+  <div class="right">
+
+
+    <p id="p3"></p>
+
+</body>
+
 </html>
