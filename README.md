@@ -1,4 +1,6 @@
 # Web Workers
+##### SEE 'Rate' BRANCH for rough example of using same worker for repeat task from same page (* could pass ID as param in this scenario)
+
 https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
 
 ```
